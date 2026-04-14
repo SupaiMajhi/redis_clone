@@ -5,10 +5,9 @@ console.log("Logs from your program will appear here!");
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: string) => {
-        console.log(data.toString())
-        // const arr = parseRESP(data);
-        // const result = encodeRESP(arr);
-        // connection.write(result);
+        const arr = parseRESP(data);
+        const val = encodeRESP(arr);
+        connection.write(val);       
     });
 });
 
@@ -39,10 +38,14 @@ const parseRESP = (data: string) :Array<string> => {
     return result;
 }
 
-const encodeRESP = (arr: Array<string>) :string => {
-    const value = arr[1];
+const encodeRESP = (arr:Array<string>) :string => {
+    const command = arr[0].toUpperCase();
 
-    return `$${value.length}\r\n${value}\r\n`;
+    if(command === "ECHO"){
+        return `$${arr[1].length}\r\n${arr[1]}\r\n`;
+    }else {
+        return `+PONG\r\n`;
+    }
 }
 
 server.listen(6379, "127.0.0.1");
