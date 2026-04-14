@@ -15,6 +15,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
 });
 
 const parseRESP = (data: string) :Array<string> => {
+    console.log(data)
    let i = 0;
 
    function readLine(){
@@ -41,6 +42,7 @@ const parseRESP = (data: string) :Array<string> => {
         i += len + 2;
         result.push(value);
     }
+    console.log(result)
     return result;
 }
 
