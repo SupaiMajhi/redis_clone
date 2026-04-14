@@ -7,9 +7,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: Buffer) => {
         console.log(data)
         const arr = parseRESP(data.toString("utf-8"));
-        console.log(arr)
         const val = encodeRESP(arr);
-        console.log(val)
         connection.write(val);       
     });
 });
@@ -27,9 +25,7 @@ const parseRESP = (data: string) :Array<string> => {
    }
 
     const first = readLine();
-    if(first !== "*"){
-        return [];
-    }
+    console.log(first)
     const count = parseInt(first.slice(1));
 
     const result = [];
@@ -42,7 +38,6 @@ const parseRESP = (data: string) :Array<string> => {
         i += len + 2;
         result.push(value);
     }
-    console.log(result)
     return result;
 }
 
