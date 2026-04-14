@@ -5,9 +5,10 @@ console.log("Logs from your program will appear here!");
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: string) => {
-        const arr = parseRESP(data);
-        const result = encodeRESP(arr);
-        connection.write(result);
+        console.log(data.toString())
+        // const arr = parseRESP(data);
+        // const result = encodeRESP(arr);
+        // connection.write(result);
     });
 });
 
