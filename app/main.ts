@@ -25,7 +25,6 @@ const parseRESP = (data: string) :Array<string> => {
    }
 
     const first = readLine();
-    console.log(first)
     const count = parseInt(first.slice(1));
 
     const result = [];
