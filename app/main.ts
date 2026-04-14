@@ -7,7 +7,6 @@ console.log("Logs from your program will appear here!");
 const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: Buffer) => {
         const arr = decode(data.toString());
-        console.log('arr', arr);
         const val = encode(arr);
         connection.write(val);       
     });
