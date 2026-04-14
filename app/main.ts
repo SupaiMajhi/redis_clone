@@ -4,9 +4,8 @@ import * as net from "net";
 console.log("Logs from your program will appear here!");
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
-    connection.on('data', (data: string) => {
-        console.log(data)
-        const arr = parseRESP(data);
+    connection.on('data', (data: Buffer) => {
+        const arr = parseRESP(data.toString("utf-8"));
         const val = encodeRESP(arr);
         connection.write(val);       
     });
@@ -24,6 +23,9 @@ const parseRESP = (data: string) :Array<string> => {
    }
 
     const first = readLine();
+    if(first !== "*"){
+        return [];
+    }
     const count = parseInt(first.slice(1));
 
     const result = [];
