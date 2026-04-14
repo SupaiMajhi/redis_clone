@@ -5,7 +5,7 @@ console.log("Logs from your program will appear here!");
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: Buffer) => {
-        console.log(data)
+        console.log('event', data)
         const arr = parseRESP(data.toString("utf-8"));
         const val = encodeRESP(arr);
         connection.write(val);       
@@ -13,7 +13,7 @@ const server: net.Server = net.createServer((connection: net.Socket) => {
 });
 
 const parseRESP = (data: string) :Array<string> => {
-    console.log(data)
+    console.log('param', data)
    let i = 0;
 
    function readLine(){
