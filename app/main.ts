@@ -5,8 +5,11 @@ console.log("Logs from your program will appear here!");
 
 const server: net.Server = net.createServer((connection: net.Socket) => {
     connection.on('data', (data: Buffer) => {
+        console.log(data)
         const arr = parseRESP(data.toString("utf-8"));
+        console.log(arr)
         const val = encodeRESP(arr);
+        console.log(val)
         connection.write(val);       
     });
 });
