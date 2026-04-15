@@ -1,4 +1,7 @@
-const m = new Map();
+import { respBulkWrite, respSimpleWrite, respNullWrite } from "./responseWriter.ts";
+import { setCommandArgs } from "./optional.ts";
+
+const mem = new Map<string, any>();
 
 export const decode = (data: string): Array<string> => {
     let i = 0;
@@ -33,18 +36,29 @@ export const encode = (arr:Array<string>) :string => {
     const command = arr[0].toUpperCase();
 
     if(command === "ECHO"){
-        return `$${arr[1].length}\r\n${arr[1]}\r\n`;
+        return respBulkWrite(arr[1]);
     } else if(command === "SET"){
-        m.set(arr[1], arr[2]);
-        return '+OK\r\n';
+        const key = arr[1];
+        const val = {
+            value: arr[2],
+            options: setCommandArgs(arr)
+        }
+        mem.set(key, val);
+        return respSimpleWrite('OK');
     } else if(command === "GET"){
-        const value = m.get(arr[1]);
+        const key = arr[1];
+        const value = mem.get(key);
 
         if(!value){
-            return '$-1\r\n';
+            return respNullWrite();
         }
-        return `$${value.length}\r\n${value}\r\n`;
+
+        if(value.options.expiry === undefined || Date.now() < value.options.expiry){
+            return respBulkWrite(value.value);
+        } else {
+            return respNullWrite();
+        }
     } else {
-        return `+PONG\r\n`;
+        return respSimpleWrite('PONG');
     }
 }
