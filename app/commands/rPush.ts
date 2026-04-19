@@ -1,8 +1,7 @@
 import { respIntWriter } from "../responseWriter.ts";
+import { lists } from "../main.ts";
 
-const lists:Map<string, string[]> = new Map();
-
-const handleRpush = (arr: Array<string>) :string => { 
+const RPUSH = (arr: Array<string>) :string => { 
     let key = arr[1];
     let value:Array<string> = arr.slice(2);
 
@@ -16,4 +15,4 @@ const handleRpush = (arr: Array<string>) :string => {
     return respIntWriter(list.length);
 }
 
-export default handleRpush;
+export default RPUSH;

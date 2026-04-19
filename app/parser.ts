@@ -1,8 +1,8 @@
-import { respBulkWrite, respSimpleWrite, respNullWrite } from "./responseWriter.ts";
-import { setCommandArgs } from "./optional.ts";
-import handleRpush from "./commands/rPush.ts";
-
-const mem = new Map<string, any>();
+import { respBulkWriter, respSimpleWriter } from "./responseWriter.ts";
+import RPUSH from "./commands/rPush.ts";
+import GET from "./commands/get.ts";
+import SET from "./commands/set.ts";
+import LRANGE from "./commands/lRange.ts";
 
 export const decode = (data: string): Array<string> => {
     let i = 0;
@@ -34,34 +34,20 @@ export const decode = (data: string): Array<string> => {
 
 
 export const encode = (arr:Array<string>) :string => {
-    const command = arr[0].toUpperCase();
+    const command:string = arr[0].toUpperCase();
 
-    if(command === "ECHO"){
-        return respBulkWrite(arr[1]);
-    } else if(command === "SET"){
-        const key = arr[1];
-        const val = {
-            value: arr[2],
-            options: setCommandArgs(arr)
-        }
-        mem.set(key, val);
-        return respSimpleWrite('OK');
-    } else if(command === "GET"){
-        const key = arr[1];
-        const value = mem.get(key);
-
-        if(!value){
-            return respNullWrite();
-        }
-
-        if(value.options.expiry === undefined || Date.now() < value.options.expiry){
-            return respBulkWrite(value.value);
-        } else {
-            return respNullWrite();
-        }
-    } else if(command === "RPUSH"){
-        return handleRpush(arr);
-    } else {
-        return respSimpleWrite('PONG');
+    switch(command){
+        case "ECHO":
+            return respBulkWriter(arr[1]);
+        case "SET":
+            return SET(arr);
+        case "GET":
+            return GET(arr);
+        case "RPUSH":
+            return RPUSH(arr);
+        case "LRANGE":
+            return LRANGE(arr);
+        default:
+            return respSimpleWriter('PONG');
     }
 }
