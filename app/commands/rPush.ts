@@ -4,7 +4,7 @@ const lists:Map<string, string[]> = new Map();
 
 const handleRpush = (arr: Array<string>) :string => { 
     let key = arr[1];
-    let value = arr[2];
+    let value:Array<string> = arr.slice(2);
 
     let list = lists.get(key);
     if(!list){
@@ -12,7 +12,7 @@ const handleRpush = (arr: Array<string>) :string => {
         lists.set(key, list);
     }
 
-    list.push(value);
+    list.push(...value);
     return respIntWriter(list.length);
 }
 
