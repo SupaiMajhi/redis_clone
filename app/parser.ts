@@ -1,5 +1,6 @@
 import { respBulkWrite, respSimpleWrite, respNullWrite } from "./responseWriter.ts";
 import { setCommandArgs } from "./optional.ts";
+import handleRpush from "./commands/rPush.ts";
 
 const mem = new Map<string, any>();
 
@@ -58,6 +59,8 @@ export const encode = (arr:Array<string>) :string => {
         } else {
             return respNullWrite();
         }
+    } else if(command === "RPUSH"){
+        return handleRpush(arr);
     } else {
         return respSimpleWrite('PONG');
     }

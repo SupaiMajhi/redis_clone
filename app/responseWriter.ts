@@ -9,3 +9,7 @@ export const respBulkWrite = (data:string) : string => {
 export const respNullWrite = () : string => {
     return '$-1\r\n';
 }
+
+export const respIntWriter = (num:number) : string => {
+    return `:${num}\r\n`;
+}
