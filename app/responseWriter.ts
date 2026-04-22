@@ -15,7 +15,6 @@ export const respIntWriter = (num:number) :string => {
 }
 
 export const respArrayWriter = (arr:Array<string>) :string => {
-    console.log(arr)
     let str:string = "";
     let arrLen = arr.length;
 
@@ -26,16 +25,11 @@ export const respArrayWriter = (arr:Array<string>) :string => {
     for(let i=0; i < arrLen; i++){
         let val = arr[i];
         let len = arr[i].length;
-        console.log(val)
-        console.log(len)
         if(i === 0){
-            console.log('if')
             str += `*${arrLen}\r\n$${len}\r\n${val}\r\n`;
         }else{
-            console.log('else')
             str += `$${len}\r\n${val}\r\n`;
         }
     }
-    console.log('str', str)
     return str;
 }
