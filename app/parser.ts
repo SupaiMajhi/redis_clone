@@ -1,5 +1,6 @@
 import { respBulkWriter, respSimpleWriter } from "./responseWriter.ts";
 import RPUSH from "./commands/rPush.ts";
+import LPUSH from "./commands/LPUSH.ts";
 import GET from "./commands/get.ts";
 import SET from "./commands/set.ts";
 import LRANGE from "./commands/lRange.ts";
@@ -47,6 +48,8 @@ export const encode = (arr:Array<string>) :string => {
             return RPUSH(arr);
         case "LRANGE":
             return LRANGE(arr);
+        case "LPUSH":
+            return LPUSH(arr);
         default:
             return respSimpleWriter('PONG');
     }
